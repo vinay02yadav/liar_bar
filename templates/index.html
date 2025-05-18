@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Local House Site</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f0f0f0;
+        }
+        canvas {
+            border: 1px solid #ccc;
+            background-color: #fff;
+        }
+        #startBtn {
+            position: absolute;
+            z-index: 10;
+            padding: 10px 20px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="600" height="400"></canvas>
+    <button id="startBtn">Start</button>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Popup Video on Click</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #111;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #playBtn {
+      padding: 12px 25px;
+      font-size: 1.2rem;
+      background: crimson;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      z-index: 1;
+    }
+
+    #videoPopup {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.9);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    #videoPopup.show {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    video {
+      max-width: 90%;
+      max-height: 90%;
+      border: 3px solid white;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <button id="playBtn">Play Video</button>
+
+  <div id="videoPopup">
+    <video id="popupVideo" src="/static//audio/shoot.webm"></video>
+  </div>
+
+  <script>
+    const btn = document.getElementById('playBtn');
+    const popup = document.getElementById('videoPopup');
+    const video = document.getElementById('popupVideo');
+
+    btn.addEventListener('click', () => {
+      popup.classList.add('show');
+      video.currentTime = 0;
+      video.play();
+    });
+
+    video.addEventListener('ended', () => {
+      popup.classList.remove('show');
+    });
+  </script>
+
+</body>
+</html> -->

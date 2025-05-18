@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Landing Page</title>
+    <style>
+        html,
+        body {
+            margin: 0;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f0f0f0;
+            font-family: sans-serif;
+        }
+
+        .timer {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 32px;
+            color: red;
+            font-weight: bold;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            width: 80vw;
+            max-width: 600px;
+            justify-items: center;
+        }
+
+        .grid button {
+            padding: 20px;
+            font-size: 20px;
+            border-radius: 8px;
+            border: none;
+            background-color: #4CAF50;
+            color: white;
+            width: 100%;
+
+        }
+
+        .grid button:hover {
+            background-color: #db3636;
+            /* Darker shade of green */
+            transform: scale(1.1);
+            /* Slightly enlarge the button */
+            cursor: pointer;
+            /* Change cursor to pointer */
+        }
+
+        /* Focus effect (when the button is clicked or focused) */
+        .grid button:focus {
+            outline: none;
+            /* Remove default focus outline */
+            box-shadow: 0 0 10px rgba(72, 161, 39, 0.7);
+            /* Add a subtle green glow */
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Player Grid -->
+    <div class="grid">
+        {% for name in players %}
+        <button class="player-btn">{{ name }}</button>
+        {% endfor %}
+    </div>
+
+    <script>
+
+        const handleButtonClick = (playerName) => {
+
+
+        };
+
+        const send_info = (playerName, button) => {
+            fetch('/killed', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ killed: playerName })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Server response:', data.message); // Optional logging
+                    if (data.message == "not_kill") {
+                        // Create popup container
+                        const popup = document.createElement('div');
+                        popup.style.position = 'fixed';
+                        popup.style.top = 0;
+                        popup.style.left = 0;
+                        popup.style.width = '100vw';
+                        popup.style.height = '100vh';
+                        popup.style.backgroundColor = 'rgba(0, 0, 0, 0.9)';
+                        popup.style.display = 'flex';
+                        popup.style.justifyContent = 'center';
+                        popup.style.alignItems = 'center';
+                        popup.style.zIndex = 9999;
+
+                        // Create video element
+                        const video = document.createElement('video');
+                        video.src = '/static//audio/not_shoot.webm'; // Replace with your video
+                        video.autoplay = true;
+                        video.controls = false;
+                        video.playbackRate = 0.5;
+                        video.style.maxWidth = '90%';
+                        video.style.maxHeight = '90%';
+                        video.style.border = '3px solid white';
+                        video.style.borderRadius = '10px';
+
+                        // Add to DOM
+                        popup.appendChild(video);
+                        document.body.appendChild(popup);
+
+                        // Remove popup after video ends
+                        video.addEventListener('ended', () => {
+                            document.body.removeChild(popup);
+                        });
+                        setTimeout(() => {
+                            const sound = new Audio('/static//audio/r.m4a'); // shortened
+                            sound.play();
+                        }, 2000);
+
+
+                    }
+
+                    else {
+
+                        const popup = document.createElement('div');
+                        popup.style.position = 'fixed';
+                        popup.style.top = 0;
+                        popup.style.left = 0;
+                        popup.style.width = '100vw';
+                        popup.style.height = '100vh';
+                        popup.style.backgroundColor = 'rgba(0, 0, 0, 0.9)';
+                        popup.style.display = 'flex';
+                        popup.style.justifyContent = 'center';
+                        popup.style.alignItems = 'center';
+                        popup.style.zIndex = 9999;
+
+                        // Create video element
+                        const video = document.createElement('video');
+                        video.src = '/static//audio/shoot.webm'; // Replace with your video
+                        video.autoplay = true;
+                        video.controls = false;
+                        video.playbackRate = 0.5;
+                        video.style.maxWidth = '90%';
+                        video.style.maxHeight = '90%';
+                        video.style.border = '3px solid white';
+                        video.style.borderRadius = '10px';
+
+
+                        // Add to DOM
+                        popup.appendChild(video);
+                        document.body.appendChild(popup);
+
+                        // Remove popup after video ends
+                        video.addEventListener('ended', () => {
+                            document.body.removeChild(popup);
+                        });
+
+                        button.disabled = true;
+                        button.style.backgroundColor = 'gray';
+                        button.style.cursor = 'not-allowed';
+                        setTimeout(() => {
+                            const sound = new Audio('/static//audio/gun.mp3'); // shortened
+                            sound.play();
+                        }, 2000);
+
+                    }
+
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+
+        // Add event listeners to all player buttons
+        const playerButtons = document.querySelectorAll('.player-btn');
+        playerButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const playerName = button.textContent;
+                send_info(playerName, button); // Pass the button too
+            });
+        });
+
+
+
+    </script>
+</body>
+
+</html>
